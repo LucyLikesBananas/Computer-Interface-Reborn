@@ -10,8 +10,8 @@ Main project contributors:
 - [A Haunted Army](https://github.com/AHauntedArmy)
 - [Fchb1239](https://github.com/fchb1239)
 - [DecalFree](https://github.com/decalfree)
-
-You can find all of us on the [Gorilla Tag Modding Group Discord](http://discord.gg/monkemod).
+- [LucyLikesBananas](https://github.com/LucyLikesBananas)
+- [Exo/1runnersclub]()
 
 ## Table of Contents
 
