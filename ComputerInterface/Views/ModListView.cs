@@ -111,7 +111,7 @@ internal class ModListView : ComputerView {
             stringBuilder.Append(_selectionHandler.GetIndicatedText(idx, lineIdx, plugin.PluginInfo.Metadata.Name));
             if (!plugin.Supported)
                 stringBuilder.EndColor();
-            // stringBuilder.Append(plugin.PluginInfo.Instance.enabled ? enabledPrefix : disabledPrefix);
+            
         });
 
         stringBuilder.AppendLines(2);
@@ -126,7 +126,7 @@ internal class ModListView : ComputerView {
 
         switch (key) {
             case EKeyboardKey.Option1:
-                // FIX: if no other plugins are installed, _plugins is empty and indexing crashed.
+                
                 if (_plugins.Length == 0)
                     break;
                 ShowView<ModView>(_plugins[_selectionHandler.CurrentSelectionIndex]);
@@ -138,7 +138,7 @@ internal class ModListView : ComputerView {
     }
 
     private void SelectMod(int idx) {
-        // FIX: bounds-check before indexing (defensive against an empty/short list).
+        
         if ((uint)idx >= (uint)_plugins.Length)
             return;
         if (_plugins[idx].Supported)

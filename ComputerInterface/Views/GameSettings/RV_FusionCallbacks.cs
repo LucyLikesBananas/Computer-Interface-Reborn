@@ -117,33 +117,33 @@ namespace ComputerInterface.Views.GameSettings
 
         public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
         {
-            // CI has no need to react to AOI changes; intentionally left empty.
-            // Previously threw NotImplementedException, which crashed Fusion when invoked.
+            
+            
         }
 
         public void OnObjectEnterAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
         {
-            // CI has no need to react to AOI changes; intentionally left empty.
-            // Previously threw NotImplementedException, which crashed Fusion when invoked.
+            
+            
         }
 
         public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason)
         {
-            // Newer Fusion overload of OnDisconnectedFromServer. Mirror the single-arg
-            // behaviour so the room view still updates instead of throwing.
+            
+            
             roomView.Redraw(useTemporaryState: true, temporaryState: NetSystemState.Idle);
         }
 
         public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ReliableKey key, ArraySegment<byte> data)
         {
-            // CI does not send/receive custom reliable data; intentionally left empty.
-            // Previously threw NotImplementedException, which crashed Fusion when invoked.
+            
+            
         }
 
         public void OnReliableDataProgress(NetworkRunner runner, PlayerRef player, ReliableKey key, float progress)
         {
-            // CI does not track reliable data progress; intentionally left empty.
-            // Previously threw NotImplementedException, which crashed Fusion when invoked.
+            
+            
         }
     }
 }

@@ -39,7 +39,7 @@ internal class GroupView : ComputerView {
         stringBuilder.BeginCenter().Repeat("=", ScreenWidth).AppendLine();
         stringBuilder.BeginColor("ffffff50").Append("Press enter to join").AppendLine();
         stringBuilder.Append("Option 1 for more info").AppendLine().EndColor();
-        // FIX: removed an extra, unbalanced EndColor() that produced a stray "</color>".
+        
         stringBuilder.Repeat("=", ScreenWidth).EndAlign().AppendLines(2);
     }
 

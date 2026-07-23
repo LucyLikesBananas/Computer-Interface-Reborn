@@ -14,8 +14,8 @@ internal static class AssetLoader {
             return Task.FromResult(_storedAssetBundle);
 
         var stream = typeof(Plugin).Assembly.GetManifestResourceStream("ComputerInterface.Content.CIBundle");
-        // FIX: if the embedded resource is missing, stream is null and AssetBundle.LoadFromStream(null)
-        // threw ArgumentNullException. Fail loudly with a clear message instead.
+        
+        
         if (stream == null) {
             Logging.Error("Computer Interface could not find its embedded asset bundle (CIBundle).");
             return Task.FromResult<AssetBundle>(null);

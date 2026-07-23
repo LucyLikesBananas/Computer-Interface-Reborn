@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using ComputerInterface.Enumerations;
 using ComputerInterface.Tools;
 using UnityEngine;
@@ -14,24 +14,14 @@ public class UIElementPageHandler<T> : UIPageHandler {
     public UIElementPageHandler() {
     }
 
-    /// <summary>
-    /// Sets the elements for the pages
-    /// </summary>
-    /// <param name="elements"></param>
-    public void SetElements(T[] elements) {
+        public void SetElements(T[] elements) {
         _elements = elements;
         MaxPage = Mathf.CeilToInt((float)elements.Length / EntriesPerPage) - 1;
         CurrentPage = 0;
         ItemsOnScreen = Math.Min(EntriesPerPage, _elements.Length);
     }
 
-    /// <summary>
-    /// iterates through the elements of the given page
-    /// and returns them with the callback
-    /// </summary>
-    /// <param name="page"></param>
-    /// <param name="elementCallback">Callback with (Element T, Index i)</param>
-    public void EnumerateElements(int page, Action<T, int> elementCallback) {
+        public void EnumerateElements(int page, Action<T, int> elementCallback) {
         if (elementCallback == null)
             return;
 
@@ -40,12 +30,7 @@ public class UIElementPageHandler<T> : UIPageHandler {
             elementCallback(elements[i], i);
     }
 
-    /// <summary>
-    /// iterates through the elements of the current page
-    /// and returns them with the callback
-    /// </summary>
-    /// <param name="elementCallback">Callback with (Element T, Index i)</param>
-    public void EnumerateElements(Action<T, int> elementCallback) {
+        public void EnumerateElements(Action<T, int> elementCallback) {
         if (elementCallback == null)
             return;
 
@@ -54,12 +39,7 @@ public class UIElementPageHandler<T> : UIPageHandler {
             elementCallback(elements[i], i);
     }
 
-    /// <summary>
-    /// Gets the elements for the given page
-    /// </summary>
-    /// <param name="page"></param>
-    /// <returns></returns>
-    public T[] GetElementsForPage(int page) {
+        public T[] GetElementsForPage(int page) {
         if (_elements == null) {
             Logging.Error("Elements are not set yet\nPlease set the lines first");
             return null;

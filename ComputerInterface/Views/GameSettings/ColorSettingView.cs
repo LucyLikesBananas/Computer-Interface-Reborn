@@ -25,7 +25,7 @@ public class ColorSettingView : ComputerView {
     public override void OnShow(object[] args) {
         base.OnShow(args);
 
-        // FIX: GetColor() (a PlayerPrefs read) was called twice; reuse the value.
+        
         _color = BaseGameInterface.GetColor();
         SetColor(_color);
         _savedColor = _color;

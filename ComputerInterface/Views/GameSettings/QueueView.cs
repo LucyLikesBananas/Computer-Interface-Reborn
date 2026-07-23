@@ -22,8 +22,8 @@ internal class QueueView : ComputerView {
 
     public QueueView() {
         _selectionHandler.ConfigureSelectionIndicator($"<color=#{PrimaryColor}> ></color> ", "", "   ", "");
-        // FIX: was `_queues.Count`, which allowed an out-of-range index (3 on a 3-item list)
-        // and crashed in `_queues[CurrentSelectionIndex]`. Max index must be Count - 1.
+        
+        
         _selectionHandler.MaxIdx = _queues.Count - 1;
     }
 

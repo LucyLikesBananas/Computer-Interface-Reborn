@@ -17,9 +17,9 @@ public static class BaseGameInterface {
     public const int MaxRoomLength = 10;
     public const int MaxNameLength = 12;
     public const int MaxTroopLength = 12;
-    public const int MaxCodeLength = 8; // Not fully sure if any other codes are 8+ characters. Please change the length if they are. -DecalFree
+    public const int MaxCodeLength = 8; 
 
-    // WordCheckResult (enum), WordCheckResultToMessage, WordAllowed
+    
     #region Word Checking
     
     public static string WordCheckResultToMessage(EWordCheckResult result) => result switch {
@@ -53,7 +53,7 @@ public static class BaseGameInterface {
 
     #endregion
 
-    // Disconnect, JoinRoom, GetRoomCode
+    
     #region Room Settings
 
     public static EWordCheckResult JoinRoom(string roomId) {
@@ -89,7 +89,7 @@ public static class BaseGameInterface {
 
     #endregion
 
-    // GetName, SetName
+    
     #region Name Settings
 
     public static string GetName() =>
@@ -141,7 +141,7 @@ public static class BaseGameInterface {
 
     #endregion
 
-    // SetColor, GetColor, InitializeNoobMaterial
+    
     #region Colour Settings
 
     public static void SetColor(float r, float g, float b) {
@@ -179,7 +179,7 @@ public static class BaseGameInterface {
 
     #endregion
 
-    // SetTurnMode, GetTurnMode, SetTurnValue, GetTurnValue
+    
     #region Turn Settings
 
     public static void SetTurnMode(ETurnMode turnMode) {
@@ -209,7 +209,7 @@ public static class BaseGameInterface {
 
     #endregion
 
-    // SetInstrumentVolume, GetInstrumentVolume, SetItemMode, GetItemMode
+    
     #region Item Settings
 
     public static void SetInstrumentVolume(int value) {
@@ -239,7 +239,7 @@ public static class BaseGameInterface {
 
     #endregion
 
-    // SetRedemptionStatus, GetRedemptionStatus
+    
     #region Redemption Settings
 
     public static void SetRedemptionStatus(GorillaComputer.RedemptionResult newStatus) {
@@ -254,7 +254,7 @@ public static class BaseGameInterface {
 
     #endregion
 
-    // SetPttMode, GetPttMode
+    
     #region Microphone Settings
 
     public static void SetPttMode(EPTTMode mode) {
@@ -283,7 +283,7 @@ public static class BaseGameInterface {
 
     #endregion
 
-    // SetVoiceMode, GetVoiceMode
+    
     #region Voice Settings
 
     public static void SetVoiceMode(bool humanVoiceOn) {
@@ -302,7 +302,7 @@ public static class BaseGameInterface {
 
     #endregion
 
-    // SetAutomodMode, GetAutomodMode
+    
     #region Automod Settings
 
     public static void SetAutomodMode(int value) {
@@ -323,7 +323,7 @@ public static class BaseGameInterface {
 
     #endregion
 
-    // JoinGroupMap, GetGroupJoinMaps
+    
     #region Group Settings
 
     public static void JoinGroupMap(int map) {
@@ -348,14 +348,14 @@ public static class BaseGameInterface {
 
     #endregion
 
-    // displaySupportTab (bool)
+    
     #region Support Settings
 
     public static bool DisplaySupportTab;
 
     #endregion
 
-    // SetQueue (IQueueInfo / string), GetQueue, AllowedInCompetitive
+    
     #region Queue Settings
 
     public static void SetQueue(IQueueInfo queue, bool isTroopQueue = false) =>
@@ -384,7 +384,7 @@ public static class BaseGameInterface {
 
     #endregion
 
-    // IsValidTroopName, JoinTroopQueue, JoinDefaultQueue, LeaveTroop, JoinTroop, GetCurrentTroop, IsInTroop
+    
     #region Troop Settings
         
     public static bool IsValidTroopName(string troopName) {
@@ -458,7 +458,7 @@ public static class BaseGameInterface {
 
     #endregion
 
-    // InitColorState, InitNameState, InitTurnState, InitMicState, InitTroopState, InitVoiceMode, InitAutomodMode, InitItemMode, InitRedemptionStatus, InitSupportMode, InitAll
+    
     #region Initialization
 
     public static void InitColorState() =>
@@ -516,9 +516,9 @@ public static class BaseGameInterface {
 
     public static void InitAll()
     {
-        // FIX: each sub-init touches different game internals; if one throws (common after a GT
-        // update) the rest — and the UI that runs afterwards — used to be skipped, leaving the
-        // screen stuck on "Loading". Isolate each step so a single failure can't take down the rest.
+        
+        
+        
         void SafeInit(Action init, string name)
         {
             try { init(); }

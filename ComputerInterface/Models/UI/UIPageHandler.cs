@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using ComputerInterface.Enumerations;
 using UnityEngine;
 
@@ -7,28 +7,13 @@ namespace ComputerInterface.Models.UI;
 public class UIPageHandler {
     public int CurrentPage { get; set; }
 
-    /// <summary>
-    /// Last Page (0 indexed)
-    /// </summary>
-    public int MaxPage { get; protected set; }
+        public int MaxPage { get; protected set; }
 
-    /// <summary>
-    /// How many lines are allowed per page
-    /// </summary>
-    public int EntriesPerPage { get; set; }
+        public int EntriesPerPage { get; set; }
 
-    /// <summary>
-    /// How many elements are on the current page
-    /// </summary>
-    public int ItemsOnScreen { get; protected set; }
+        public int ItemsOnScreen { get; protected set; }
 
-    /// <summary>
-    /// 0 = left mark (<!--<-->)
-    /// 1 = right mark (>)
-    /// 2 = current page
-    /// 3 = max page
-    /// </summary>
-    public string Footer = "{0} {2}/{3} {1}";
+        public string Footer = "{0} {2}/{3} {1}";
 
     public string PrevMark = "<";
     public string NextMark = ">";
@@ -64,52 +49,26 @@ public class UIPageHandler {
         return false;
     }
 
-    /// <summary>
-    /// Goes to the next page
-    /// </summary>
-    /// <returns></returns>
-    public void NextPage() {
+        public void NextPage() {
         if (CurrentPage < MaxPage)
             CurrentPage++;
     }
 
-    /// <summary>
-    /// Goes to the previous page
-    /// </summary>
-    /// <returns></returns>
-    public void PreviousPage() {
+        public void PreviousPage() {
         if (CurrentPage > 0)
             CurrentPage--;
     }
 
-    /// <summary>
-    /// Advances the page to the specidied line
-    /// </summary>
-    /// <param name="idx"></param>
-    /// <returns>line number relative to the page</returns>
-    public int MovePageToIdx(int idx) {
+        public int MovePageToIdx(int idx) {
         var page = Mathf.FloorToInt((float)idx / EntriesPerPage);
         CurrentPage = page;
         return idx % EntriesPerPage;
     }
 
-    /// <summary>
-    /// Given the index of an item relative to the page
-    /// returns the absolute index
-    /// </summary>
-    /// <param name="page"></param>
-    /// <param name="itemIdx"></param>
-    /// <returns></returns>
-    public int GetAbsoluteIndex(int page, int itemIdx) =>
+        public int GetAbsoluteIndex(int page, int itemIdx) =>
         page * EntriesPerPage + itemIdx;
 
-    /// <summary>
-    /// Given the index of an item relative to the page
-    /// returns the absolute index
-    /// </summary>
-    /// <param name="itemIdx"></param>
-    /// <returns></returns>
-    public int GetAbsoluteIndex(int itemIdx) =>
+        public int GetAbsoluteIndex(int itemIdx) =>
         GetAbsoluteIndex(CurrentPage, itemIdx);
 
     public void AppendFooter(StringBuilder str) {

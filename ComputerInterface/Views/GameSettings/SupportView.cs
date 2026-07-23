@@ -29,7 +29,7 @@ internal class SupportView : ComputerView {
         stringBuilder.BeginCenter().Repeat("=", ScreenWidth).AppendLine();
         stringBuilder.Append("Support Tab").AppendLine();
         stringBuilder.AppendClr("Only show this to AA support", "ffffff50").AppendLine();
-        // FIX: removed an extra, unbalanced EndColor() that produced a stray "</color>".
+        
         stringBuilder.Repeat("=", ScreenWidth).EndAlign().AppendLines(2);
     }
 

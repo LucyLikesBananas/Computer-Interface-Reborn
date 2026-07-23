@@ -3,6 +3,7 @@ using ComputerInterface.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using BepInEx.Bootstrap;
 using ComputerInterface.Interfaces;
 using ComputerInterface.Tools;
@@ -21,13 +22,25 @@ public class CommandHandler {
 
         List<ICommandRegistrar> commandRegistrars = [];
         var modAssemblies = Chainloader.PluginInfos.Values.Select(pluginInfo => pluginInfo.Instance.GetType().Assembly).Distinct();
-        var modCommandRegistrarTypes = modAssemblies.SelectMany(assembly => assembly.GetTypes()).Where(type => typeof(ICommandRegistrar).IsAssignableFrom(type) && !type.IsInterface);
+        var modCommandRegistrarTypes = modAssemblies.SelectMany(GetLoadableTypes).Where(type => typeof(ICommandRegistrar).IsAssignableFrom(type) && !type.IsInterface);
         var modCommandRegistrars = modCommandRegistrarTypes.Select(type => (ICommandRegistrar)Activator.CreateInstance(type)).Where(registrar =>
             commandRegistrars.All(existingRegistrar => existingRegistrar.GetType() != registrar.GetType()));
         commandRegistrars.AddRange(modCommandRegistrars);
         Logging.Info($"Found {commandRegistrars.Count} command registrars");
         foreach (var commandRegistrar in commandRegistrars)
             commandRegistrar.Initialize();
+    }
+
+    
+    
+    
+    internal static IEnumerable<Type> GetLoadableTypes(Assembly assembly) {
+        try {
+            return assembly.GetTypes();
+        }
+        catch (ReflectionTypeLoadException ex) {
+            return ex.Types.Where(type => type != null);
+        }
     }
 
     public CommandToken AddCommand(Command command) {
@@ -64,29 +77,29 @@ public class CommandHandler {
             return false;
         }
 
-        // FIX: a command with no callback used to "succeed" (return true) while doing nothing
-        // and leave the output message null.
+        
+        
         if (command.Callback == null) {
             messageString = $"Command '{command.Name}' has no action defined.";
             return false;
         }
 
-        // Check if the number of arguments is correct
+        
         var argumentCount = commandStrings.Length - 1;
         if (argumentCount != command.ArgumentCount) {
             messageString = $"Incorrect number of arguments!\nGot {argumentCount}\nShould be {command.ArgumentCount}";
             return false;
         }
 
-        // If there are no arguments passed the desired argument count is zero.
-        // Execute the command and return — previously this fell through and the callback
-        // was invoked a SECOND time below with an empty array.
+        
+        
+        
         if (argumentCount == 0) {
             messageString = command.Callback?.Invoke(null);
             return true;
         }
 
-        // If there are arguments present move them into a new array
+        
         var arguments = new object[argumentCount];
         for (var i = 1; i < argumentCount + 1; i++) {
             if (command.ArgumentTypes[i - 1] == null) {

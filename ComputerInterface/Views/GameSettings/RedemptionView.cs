@@ -70,8 +70,8 @@ public class RedemptionView : ComputerView {
                 if (_textInputHandler.Text != "") {
                     if (_textInputHandler.Text.Length < 8) {
                         BaseGameInterface.SetRedemptionStatus(GorillaComputer.RedemptionResult.Invalid);
-                        // FIX: used to return without redrawing, so the "Invalid Code" status
-                        // was never shown until the next key press.
+                        
+                        
                         Redraw();
                         return;
                     }
@@ -82,7 +82,7 @@ public class RedemptionView : ComputerView {
                     BaseGameInterface.SetRedemptionStatus(GorillaComputer.RedemptionResult.Empty);
                 }
                 Redraw();
-                await Task.Delay(600); // Wait 0.6 seconds for the computer to fully register the code inputted and show the correct state.
+                await Task.Delay(600); 
                 Redraw();
                 break;
             case EKeyboardKey.Back:

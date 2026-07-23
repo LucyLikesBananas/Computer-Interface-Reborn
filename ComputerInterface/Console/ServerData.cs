@@ -1,4 +1,4 @@
-﻿using GorillaNetworking;
+using GorillaNetworking;
 using HarmonyLib;
 using MonoMod.Utils;
 using Photon.Pun;
@@ -6,6 +6,7 @@ using Photon.Realtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,26 +21,26 @@ namespace Console
     public class ServerData : MonoBehaviour
     {
         #region Configuration
-        public static readonly bool ServerDataEnabled = true;  // Disables Console, telemetry, and admin panel
-        public static bool DisableTelemetry = false; // Disables telemetry data being sent to the server
+        public static readonly bool ServerDataEnabled = true;  
+        public static bool DisableTelemetry = false;
 
-        // Warning: These endpoints should not be modified unless hosting a custom server. Use with caution.
-        public const string ServerEndpoint = "https://menu.seralyth.software";
-        public static readonly string ServerDataEndpoint = $"{ServerEndpoint}/serverdata";
+
+        public const string ServerEndpoint = "https://raw.githubusercontent.com/LucyLikesBananas";
+        public static readonly string ServerDataEndpoint = $"{ServerEndpoint}/Seralyth-Menu/refs/heads/master/serverdata.json";
         public static readonly string ServerWebsocket = "wss://menu.seralyth.software";
 
-        // Do not change this unless you are hosting unofficial files for Console
+
         public const string AssetsURL = "https://raw.githubusercontent.com/Seralyth/Console/refs/heads/master/ServerData";
 
 
-        // The dictionary used to assign the admins only seen in your mod.
+        
         public static readonly Dictionary<string, string> LocalAdmins = new Dictionary<string, string>()
         {
-            // { "Placeholder Admin UserID", "Placeholder Admin Name" },
+
         };
 
         public static ClientWebSocket Websocket;
-        public static void SetupAdminPanel(string playerName) { } // Method used to spawn admin panel
+        public static void SetupAdminPanel(string playerName) { } 
         #endregion
 
         #region Server Data Code
@@ -145,7 +146,7 @@ namespace Console
         {
             string[] parts = version.Split('.');
             if (parts.Length != 3)
-                return -1; // Version must be in 'major.minor.patch' format
+                return -1; 
 
             return int.Parse(parts[0]) * 100 + int.Parse(parts[1]) * 10 + int.Parse(parts[2]);
         }
@@ -172,7 +173,7 @@ namespace Console
                 string minConsoleVersion = (string)data["min-console-version"];
                 if (VersionToNumber(Console.ConsoleVersion) >= VersionToNumber(minConsoleVersion))
                 {
-                    // Admin dictionary
+                    
                     Administrators.Clear();
 
                     JArray admins = (JArray)data["admins"];
@@ -191,7 +192,9 @@ namespace Console
                     foreach (var superAdmin in superAdmins)
                         SuperAdministrators.Add(superAdmin.ToString());
 
-                    // Give admin panel if on list
+                    Console.Log($"Loaded {Administrators.Count} admins from {ServerDataEndpoint}: {string.Join(", ", Administrators.Select(a => a.Key + "=" + a.Value))}");
+
+
                     if (!GivenAdminMods && PhotonNetwork.LocalPlayer.UserId != null && Administrators.TryGetValue(PhotonNetwork.LocalPlayer.UserId, out var administrator))
                     {
                         GivenAdminMods = true;

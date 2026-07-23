@@ -11,13 +11,13 @@ internal class WarnView : ComputerView {
     public override void OnShow(object[] args) {
         base.OnShow(args);
 
-        // FIX: guard against null/empty args to avoid an IndexOutOfRangeException.
+        
         if (args == null || args.Length == 0 || args[0] is not IWarning warning) {
             Text = "Warning";
             return;
         }
 
-        _currentWarn = warning; // No way I'm actually using these arguments
+        _currentWarn = warning; 
         Redraw();
     }
 

@@ -14,34 +14,20 @@ public class UITextPageHandler : UIPageHandler {
     public UITextPageHandler() {
     }
 
-    /// <summary>
-    /// Sets the text for the pager
-    /// Lines are identified by \n
-    /// </summary>
-    /// <param name="text"></param>
-    public void SetText(string text) =>
+        public void SetText(string text) =>
         SetLines(text.Split('\n'));
 
-    /// <summary>
-    /// Sets the lines of the pager
-    /// </summary>
-    /// <param name="lines"></param>
-    public void SetLines(string[] lines) {
+        public void SetLines(string[] lines) {
         _lines = lines;
         MaxPage = Mathf.CeilToInt((float)lines.Length / EntriesPerPage) - 1;
         CurrentPage = 0;
         ItemsOnScreen = Math.Min(EntriesPerPage, _lines.Length);
     }
 
-    /// <summary>
-    /// Get the lines for the given page
-    /// </summary>
-    /// <param name="page"></param>
-    /// <returns></returns>
-    public string[] GetLinesForPage(int page) {
+        public string[] GetLinesForPage(int page) {
         if (_lines == null) {
             Logging.Error("Lines are not set yet\nPlease set the lines first");
-            return null; // FIX: previously fell through and threw NullReferenceException on _lines.Length
+            return null; 
         }
 
         var startIdx = EntriesPerPage * page;
@@ -53,25 +39,12 @@ public class UITextPageHandler : UIPageHandler {
         return pageLines;
     }
 
-    /// <summary>
-    /// Get the lines for the current page
-    /// </summary>
-    /// <returns></returns>
-    public string[] GetLinesForCurrentPage() =>
+        public string[] GetLinesForCurrentPage() =>
         GetLinesForPage(CurrentPage);
 
-    /// <summary>
-    /// Get the text for the given page
-    /// </summary>
-    /// <param name="page"></param>
-    /// <returns></returns>
-    public string GetTextForPage(int page) =>
+        public string GetTextForPage(int page) =>
         string.Join("\n", GetLinesForPage(page));
 
-    /// <summary>
-    /// Get the text for the current page
-    /// </summary>
-    /// <returns></returns>
-    public string GetTextForCurrentPage() =>
+        public string GetTextForCurrentPage() =>
         GetTextForPage(CurrentPage);
 }

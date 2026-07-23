@@ -47,10 +47,7 @@ public class CustomKeyboardKey : GorillaTriggerBox {
         CreateKeyMap();
     }
 
-    /// <summary>
-    /// Used for debugging keyboard feature
-    /// </summary>
-    public void Fetch() =>
+        public void Fetch() =>
         _keyHandler?.Fetch();
 
     public void Init(CustomComputer computer, EKeyboardKey key, TextMeshPro keyboardText = null) {
@@ -58,15 +55,7 @@ public class CustomKeyboardKey : GorillaTriggerBox {
         KeyboardKey = key;
         KeyboardText = keyboardText;
         
-        /*
-        if (_keyHandler != null)
-            _keyHandler.OnClick -= OnISKeyPress;
-
-        if (_keyMap.TryGetValue(key, out var isKey)) {
-            _keyHandler = new KeyHandler(Keyboard.current[isKey]);
-            _keyHandler.OnClick += OnISKeyPress;
-        }
-        */
+        
 
         if (_collider != null && !_collider.enabled)
             _collider.enabled = true;
@@ -172,11 +161,11 @@ public class CustomKeyboardKey : GorillaTriggerBox {
             { EKeyboardKey.Option3, Key.Numpad3 }
         };
 
-        // Add num keys
+        
         for (var i = 1; i < 9; i++) {
             var localKey = (EKeyboardKey)i;
-            // FIX: `(Key)40 + i` parses as `((Key)40) + i` (enum + int), which is not a valid
-            // operation in C#. Do the integer addition first, then cast to Key.
+            
+            
             var key = (Key)(40 + i);
 
             _keyMap.Add(localKey, key);
@@ -184,7 +173,7 @@ public class CustomKeyboardKey : GorillaTriggerBox {
 
         _keyMap.Add(EKeyboardKey.NUM0, Key.Digit0);
 
-        // Add keys that match in name like alphabet keys
+        
         foreach (var gtKey in Enum.GetNames(typeof(EKeyboardKey))) {
             var keyboardKey = (EKeyboardKey)Enum.Parse(typeof(EKeyboardKey), gtKey);
             if (_keyMap.ContainsKey(keyboardKey))

@@ -1,4 +1,4 @@
-﻿using BepInEx.Bootstrap;
+using BepInEx.Bootstrap;
 using ComputerInterface.Extensions;
 using ComputerInterface.Interfaces;
 using System.Collections.Generic;
@@ -32,7 +32,7 @@ public class MainMenuView : ComputerView {
     public void ShowEntries(List<IComputerModEntry> entries) {
         _modEntries = entries;
 
-        // Map entries to plugin infos
+        
         _pluginInfoMap.Clear();
         foreach (var entry in entries) {
             var assembly = entry.GetType().Assembly;

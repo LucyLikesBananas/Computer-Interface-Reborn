@@ -1,18 +1,9 @@
 namespace ComputerInterface.Interfaces;
 
 public interface IQueueInfo {
-    /// <summary>
-    /// Name shown in Queue Config.
-    /// </summary>
-    string DisplayName { get; }
+        string DisplayName { get; }
 
-    /// <summary>
-    /// Brief description of the queue.
-    /// </summary>
-    string Description { get; }
+        string Description { get; }
 
-    /// <summary>
-    /// The actual queue string. Usually in all capitals.
-    /// </summary>
-    string QueueName { get; }
+        string QueueName { get; }
 }

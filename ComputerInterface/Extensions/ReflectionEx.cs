@@ -6,8 +6,8 @@ namespace ComputerInterface.Extensions;
 internal static class ReflectionEx {
     public static void InvokeMethod(this object obj, string name, params object[] parameters) {
         var methodInfo = AccessTools.Method(obj.GetType(), name);
-        // FIX: AccessTools.Method returns null when the member isn't found (e.g. after a game
-        // update renames it). Surface a clear error instead of a NullReferenceException.
+        
+        
         if (methodInfo == null)
             throw new MissingMethodException(obj.GetType().Name, name);
         methodInfo.Invoke(obj, parameters);

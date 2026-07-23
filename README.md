@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Computer Interface
 
 Computer Interface is a library for Gorilla Tag which replaces the base computer with a custom computer, and allows developers to add functionality to it.
@@ -186,3 +187,14 @@ This used a dummy class `ExampleCommandManager`, but of course, you can do this 
 ## Disclaimers
 
 This product is not affiliated with Gorilla Tag or Another Axiom LLC and is not endorsed or otherwise sponsored by Another Axiom LLC. Portions of the materials contained herein are property of Another Axiom LLC. ©2021 Another Axiom LLC.
+=======
+# Computer-Interface-Reborn
+
+
+Do you remember Gorilla Tag Modding's prime days? When people used Computer Interface, NachoEngines Rigs Mod, 
+
+well me and my boy @cokewok are working to **BRING THEM BACK**
+
+
+Computer Interface is coming first.. more soon to come?
+>>>>>>> c99371d284640f138a82cd92ab02a75a97ecf41b

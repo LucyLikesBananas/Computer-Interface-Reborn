@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using ComputerInterface.Enumerations;
 
 namespace ComputerInterface.Models.UI;
@@ -8,17 +8,9 @@ public class UISelectionHandler {
 
     public int CurrentSelectionIndex;
 
-    /// <summary>
-    /// Min 0 indexed item
-    /// This can stay on 0 
-    /// </summary>
-    public int Min = 0;
+        public int Min = 0;
 
-    /// <summary>
-    /// Max 0 indexed item
-    /// e.g. If you have two items this should be 1
-    /// </summary>
-    public int MaxIdx { get; set; }
+        public int MaxIdx { get; set; }
 
     private readonly EKeyboardKey _upKey;
     private readonly EKeyboardKey _downKey;

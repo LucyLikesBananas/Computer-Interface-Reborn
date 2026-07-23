@@ -1,4 +1,4 @@
-﻿namespace ComputerInterface.Enumerations;
+namespace ComputerInterface.Enumerations;
 
 public enum EKeyboardKey {
     NUM0,
@@ -43,7 +43,7 @@ public enum EKeyboardKey {
     Option2,
     Option3,
     
-    // Custom keys
+    
     Left,
     Right,
     Down,

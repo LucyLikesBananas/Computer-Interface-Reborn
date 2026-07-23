@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ComputerInterface.Enumerations;
@@ -29,7 +29,7 @@ internal class MonitorController {
     public async void SetMonitor(EMonitorType monitorType) {
         _config.CurrentMonitorType.Value = monitorType;
         CustomComputer.Singleton.PrepareMonitor(GetCurrentScene(), GetComputerLocation(), false);
-        await Task.Delay(1); // Wait 0.001 seconds to fully end preparing the monitor, this stops it from duplicating itself. -DecalFree
+        await Task.Delay(1); 
         CustomComputer.Singleton.GetField<ComputerViewController>("_computerViewController").SetMonitor(GetCurrentMonitor());
     }
 

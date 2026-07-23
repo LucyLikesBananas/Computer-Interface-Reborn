@@ -67,7 +67,7 @@ public class CustomComputer : MonoBehaviour {
             new ModListEntry()
         ];
         var modAssemblies = Chainloader.PluginInfos.Values.Select(pluginInfo => pluginInfo.Instance.GetType().Assembly).Distinct();
-        var modEntryTypes = modAssemblies.SelectMany(assembly => assembly.GetTypes()).Where(type => typeof(IComputerModEntry).IsAssignableFrom(type) && !type.IsInterface);
+        var modEntryTypes = modAssemblies.SelectMany(CommandHandler.GetLoadableTypes).Where(type => typeof(IComputerModEntry).IsAssignableFrom(type) && !type.IsInterface);
         var modEntries = modEntryTypes.Select(type => (IComputerModEntry)Activator.CreateInstance(type)).Where(entry => computerModEntries.All(existingEntry => existingEntry.GetType() != entry.GetType()));
         computerModEntries.AddRange(modEntries);
         Logging.Info($"Found {computerModEntries.Count} physicalComputer Mod Entries");
@@ -89,10 +89,10 @@ public class CustomComputer : MonoBehaviour {
         _computerViewController.OnSwitchView += SwitchView;
         _computerViewController.OnSetBackground += SetBGImage;
         _monitorController = new MonitorController();
-        // FIX: GetComponentInHierarchy can return null (no computer in this scene), in which case
-        // the original `.gameObject` dereference threw NullReferenceException. Skip the initial
-        // monitor prep only; the rest of init (scene handlers, view controller, base-game state)
-        // still runs, and OnSceneLoaded will prepare monitors once a scene with a computer loads.
+        
+        
+        
+        
         var gorillaComputerTerminal = SceneManager.GetActiveScene().GetComponentInHierarchy<GorillaComputerTerminal>();
         Logging.Info($"Found {SceneManager.GetActiveScene().GetComponentsInHierarchy<GorillaComputerTerminal>().Count} Computers in GorillaTag scene.");
 
@@ -106,11 +106,11 @@ public class CustomComputer : MonoBehaviour {
         SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.sceneUnloaded += OnSceneUnloaded;
 
-        // FIX: previously ShowInitialView() (which puts real text on the screen) ran LAST, AFTER
-        // SetMonitor() and BaseGameInterface.InitAll(). On builds where either of those throws
-        // (they touch many game internals that change between GT updates), ShowInitialView was
-        // skipped and every monitor stayed stuck on "Loading". Show the UI FIRST, and isolate each
-        // step so one failure can't leave the screen blank.
+        
+        
+        
+        
+        
         try {
             ShowInitialView(_mainMenuView, computerModEntries);
         }
@@ -167,22 +167,22 @@ public class CustomComputer : MonoBehaviour {
     }
 
     private void Update() {
-        // Get key state for the key debugging feature
+        
         if (CustomKeyboardKey.KeyDebuggerEnabled && _keys != null) {
             foreach (var key in _keys)
                 key.Fetch();
         }
 
-        // Make sure the physicalComputer is ready
+        
         if (_computerViewController.CurrentComputerView != null) {
-            // Check to see if our connection is off
+            
             if (!InternetConnected && !_connectionError) {
                 _connectionError = true;
                 _computerViewController.SetView(_warningView, [ new WarnView.NoInternetWarning() ]);
                 _gorillaComputer.UpdateFailureText("NO WIFI OR LAN CONNECTION DETECTED.");
             }
 
-            // Check to see if we're back online
+            
             if (InternetConnected && _connectionError) {
                 _connectionError = false;
                 _computerViewController.SetView(_computerViewController.CurrentComputerView == _warningView ? _mainMenuView : _computerViewController.CurrentComputerView, null);
@@ -322,10 +322,10 @@ public class CustomComputer : MonoBehaviour {
         ComputerView.ScreenHeight = (int)_monitorController.GetComputerScreenDimensions(monitor).y;
         
         foreach (var gorillaComputerTerminal in SceneManager.GetSceneByName("GorillaTag").GetComponentsInHierarchy<GorillaComputerTerminal>()) {
-            // FIX: was `return`, which aborted the whole loop (and skipped remaining computers) the
-            // moment one terminal didn't yet have a Computer Interface monitor. Skip only this one.
-            // Also look our monitor up BY NAME instead of assuming child index 1 (which threw
-            // IndexOutOfRangeException / NullReferenceException when the hierarchy changed).
+            
+            
+            
+            
             var ciMonitor = gorillaComputerTerminal.transform.Find("Computer Interface (Scene - GorillaTag)");
             if (ciMonitor == null)
                 continue;
@@ -381,8 +381,8 @@ public class CustomComputer : MonoBehaviour {
             }
         }
 
-        // FIX: if none of the buttons matched a known key (e.g. an unexpected keyboard layout),
-        // _keys is empty and the indexers below would throw. Bail out safely.
+        
+        
         if (_keys.Count == 0) {
             Logging.Warning("Computer Interface found no keys to replace on this computer");
             return;
@@ -419,7 +419,7 @@ public class CustomComputer : MonoBehaviour {
     }
 
     private static TextMeshPro FindText(GameObject button, string name = null) {
-        // Logging.Info($"Replacing key {button.name} / {name}");
+        
         if (button.GetComponent<TextMeshPro>() is { } text)
             return text;
 
@@ -429,13 +429,13 @@ public class CustomComputer : MonoBehaviour {
         if (name.Contains("enter"))
             name = "enter";
 
-        // Forest
+        
         var t = button.transform.parent?.parent?.parent?.parent?.parent?.parent?.parent?.Find(name);
             
-        // Custom Maps
+        
         t ??= button.transform.parent?.parent?.parent?.parent?.parent?.transform.Find($"UIParent/Text/{name}");
 
-        // Other Maps
+        
         t ??= button.transform.parent?.parent?.Find($"Text/{name}");
 
         return t?.GetComponent<TextMeshPro>();
@@ -475,16 +475,16 @@ public class CustomComputer : MonoBehaviour {
     private async Task<CustomScreenInfo> CreateMonitor(GameObject physicalComputer, string sceneName) {
         var currentMonitor = _monitorController.GetCurrentMonitor();
         var monitorAsset = await AssetLoader.LoadAsset<GameObject>(currentMonitor.AssetName);
-        // FIX: if the monitor prefab failed to load, Instantiate(null) returned null and the next
-        // line threw a misleading NullReferenceException.
+        
+        
         if (monitorAsset == null)
             throw new Exception($"Computer Interface could not load the '{currentMonitor.AssetName}' monitor prefab from its asset bundle.");
 
         var monitorParent = physicalComputer.transform.Find("monitor") ?? physicalComputer.transform.Find("monitor (1)");
-        // FIX: on builds where the in-game monitor mesh was merged away there is no "monitor"
-        // child; Instantiate(prefab, null, false) would drop the screen at the world origin (way off
-        // from the computer). Fall back to the computer transform so the screen still appears, then
-        // use the MonitorPositionOffset config to align it with the bezel.
+        
+        
+        
+        
         if (monitorParent == null) {
             Logging.Warning("Computer Interface found no 'monitor' child on this computer (the in-game monitor mesh may have been merged in this build). Falling back to the computer transform; use MonitorPositionOffset/MonitorRotationOffset to align.");
             monitorParent = physicalComputer.transform;
@@ -496,11 +496,22 @@ public class CustomComputer : MonoBehaviour {
             Destroy(oldMonitor.gameObject);
         
         newMonitor.name = $"Computer Interface (Scene - {sceneName})";
-        // FIX (alignment): apply the configurable offset on top of the monitor's base position so the
-        // screen can be re-aligned with the bezel after a game update without recompiling.
+        
+        
         newMonitor.transform.localPosition = currentMonitor.LocalPosition + _config.MonitorPositionOffset.Value;
         newMonitor.transform.localEulerAngles = currentMonitor.LocalEulerAngles + _config.MonitorRotationOffset.Value;
         newMonitor.transform.SetParent(physicalComputer.transform.parent, true);
+
+        
+        
+        
+        var (rightOffset, forwardOffset) = currentMonitor.MonitorType switch {
+            EMonitorType.Modern => (0.15f, -0.05f), 
+            _ => (0.07f, 0.20f) 
+        };
+        newMonitor.transform.position += newMonitor.transform.right * rightOffset;
+        newMonitor.transform.position += newMonitor.transform.forward * forwardOffset;
+
         newMonitor.transform.Find($"{_monitorController.GetCurrentMonitor().MonitorType} Monitor Prefab").gameObject.AddComponent<GorillaSurfaceOverride>();
 
         CustomScreenInfo info = new() {
@@ -526,12 +537,15 @@ public class CustomComputer : MonoBehaviour {
             }
         }
 
-        if (monitor is null) {
-            Logging.Info("Unable to find monitor");
-            return;
-        }
+        
+        
+        
+        
+        
+        if (monitor is null)
+            Logging.Info("Unable to find monitor by direct child name; trying other fallbacks");
 
-        // Stable for now 
+        
         if (computer.transform.parent.TryGetComponent(out GorillaComputerTerminal terminal)) {
             terminal.monitorMesh?.gameObject?.SetActive(false);
             terminal.myFunctionText?.gameObject?.SetActive(false);

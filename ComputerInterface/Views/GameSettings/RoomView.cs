@@ -17,9 +17,9 @@ public class RoomView : ComputerView {
     public override void OnShow(object[] args) {
         base.OnShow(args);
 
-        // FIX: destroy any previous callback holder before creating a new one. Previously each
-        // OnShow orphaned the last GameObject (DontDestroyOnLoad keeps it alive forever) and its
-        // network event subscriptions stacked up, causing duplicate redraws.
+        
+        
+        
         if (_callbacks != null)
             Object.Destroy(_callbacks);
 

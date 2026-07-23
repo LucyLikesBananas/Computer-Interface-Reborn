@@ -28,8 +28,8 @@ public class CreditsView : ComputerView {
         _totalPages = _creditsView.GetType().GetProperty("TotalPages", BindingFlags.NonPublic | BindingFlags.Instance);
         _getPage = _creditsView.GetType().GetMethod("GetPage", BindingFlags.NonPublic | BindingFlags.Instance);
 
-        // FIX: if the game renamed/removed these members (common across GT updates), reflectively
-        // obtained info is null and the view would crash on first draw.
+        
+        
         if (_totalPages == null || _getPage == null) {
             Logging.Warning("Computer Interface could not find the expected credits API on this game version.");
             ShowView<GameSettingsView>();
@@ -50,8 +50,8 @@ public class CreditsView : ComputerView {
 
     private string GetPage(int page) {
         var text = _getPage.Invoke(_creditsView, [ page ]) as string;
-        // FIX: if the reflected call returned null (API mismatch), `text?.Split` yields null and
-        // the following `lines.Length` threw NullReferenceException.
+        
+        
         if (string.IsNullOrEmpty(text))
             return "";
         var lines = text.Split('\n');
@@ -63,7 +63,7 @@ public class CreditsView : ComputerView {
             case EKeyboardKey.Left:
                 _page--;
                 if (_page == -1)
-                    _page = MaxPage - 1; // C# modulus is wrong: -1 % 5 = -1
+                    _page = MaxPage - 1; 
                 Redraw();
                 break;
             case EKeyboardKey.Right:

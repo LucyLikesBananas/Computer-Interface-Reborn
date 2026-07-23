@@ -62,8 +62,8 @@ internal class DetailsView : ComputerView {
                 ReturnToMainMenu();
                 break;
             default:
-                // FIX: the screen says "Press any key to update page", but it only redrew stale
-                // values. Refresh the stats first.
+                
+                
                 UpdateStats();
                 Redraw();
                 break;

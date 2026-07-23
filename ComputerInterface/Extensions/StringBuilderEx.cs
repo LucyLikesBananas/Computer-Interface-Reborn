@@ -2,20 +2,11 @@ using System.Text;
 
 namespace ComputerInterface.Extensions;
 
-/// <summary>
-/// Bunch of extension methods for the <see cref="StringBuilder"/>
-/// </summary>
 public static class StringBuilderEx {
     public static StringBuilder AppendClr(this StringBuilder stringBuilder, string text, string color) =>
         stringBuilder.BeginColor(color).Append(text).EndColor();
 
-    /// <summary>
-    /// Writes a string with the specified color
-    /// </summary>
-    /// <param name="stringBuilder">the string to print</param>
-    /// <param name="color">the hex color (doesn't have to start with '#')</param>
-    /// <returns></returns>
-    public static StringBuilder BeginColor(this StringBuilder stringBuilder, string color) {
+        public static StringBuilder BeginColor(this StringBuilder stringBuilder, string color) {
         if (string.IsNullOrEmpty(color))
             return stringBuilder;
         if (color[0] != '#')
@@ -51,7 +42,7 @@ public static class StringBuilderEx {
     }
 
     public static StringBuilder BeginMono(this StringBuilder stringBuilder, int spacing = 58) {
-        // FIX: previously hardcoded "<mspace=58>" and ignored the `spacing` parameter.
+        
         stringBuilder.Append($"<mspace={spacing}>");
         return stringBuilder;
     }

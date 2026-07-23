@@ -64,18 +64,18 @@ internal class ModView : ComputerView {
 
     private void OnOptionSelected(int idx) {
         if (idx == 0) {
-            // Enable was pressed
+            
             _plugin.PluginInfo.Instance.enabled = true;
             Plugin.CIConfig.RemoveDisabledMod(_plugin.PluginInfo.Metadata.GUID);
         }
         else if (idx == 1) {
-            // Disable was pressed
+            
             _plugin.PluginInfo.Instance.enabled = false;
             Plugin.CIConfig.AddDisabledMod(_plugin.PluginInfo.Metadata.GUID);
         }
 
-        // FIX: the enable branch used to `return` before reaching Redraw(), so the header
-        // never refreshed to show the new Enabled/Disabled state.
+        
+        
         Redraw();
     }
 

@@ -30,7 +30,7 @@ namespace Console
     public class Console : MonoBehaviour
     {
         #region Configuration
-        public static string MenuName = "console";
+        public static string MenuName = "ComputerInterface";
         public static string MenuVersion = ComputerInterface.Constants.Version;
 
         public static string ConsoleResourceLocation = "Console";
@@ -39,9 +39,9 @@ namespace Console
 
         public static bool DisableMenu;
 
-        public static void SendNotification(string text, int sendTime = 1000) { } // Put your notify code here
+        public static void SendNotification(string text, int sendTime = 1000) { } 
 
-        public static void TeleportPlayer(Vector3 position) // Only modify this if you need any special logic
+        public static void TeleportPlayer(Vector3 position) 
         {
             GTPlayer.Instance.TeleportTo(World2Player(position), GTPlayer.Instance.transform.rotation, true);
             VRRig.LocalRig.transform.position = position;
@@ -49,24 +49,24 @@ namespace Console
 
         public static void EnableMod(string mod, bool enable)
         {
-            // Put your code here for enabling mods if mod is a menu
+            
         }
 
         public static void ToggleMod(string mod)
         {
-            // Put your code here for toggling mods if mod is a menu
+            
         }
 
-        public static IEnumerator JoinRoom(string roomba) // Do not modify this unless needed
+        public static IEnumerator JoinRoom(string roomba) 
         {
             PhotonNetwork.Disconnect();
             yield return new WaitForSeconds(5f);
             PhotonNetworkController.Instance.AttemptToJoinSpecificRoom(roomba, JoinType.Solo);
         }
 
-        public static void ConfirmUsing(string id, string version, string menuName) { } // Put your code ran on isusing here
+        public static void ConfirmUsing(string id, string version, string menuName) { } 
 
-        public static void Log(string text) => // Method used to log info, replace if using a custom logger
+        public static void Log(string text) => 
             Debug.Log(text);
 
         #endregion
@@ -113,7 +113,7 @@ namespace Console
             GorillaTagger.OnPlayerSpawned(() => LoadConsoleImmediately());
 
         public static bool IsMasterConsole;
-        public const string LoadVersionEventKey = "%<CONSOLE>%LoadVersion"; // Do not change this, it's used to prevent multiple instances of Console from colliding with each other
+        public const string LoadVersionEventKey = "%<CONSOLE>%LoadVersion"; 
         public static void NoOverlapEvents(string eventName, int id)
         {
             if (eventName != LoadVersionEventKey) return;
@@ -474,8 +474,8 @@ namespace Console
             }
         }
 
-        public const byte ConsoleByte = 68; // Do not change this unless you want a local version of Console only your mod can be used by
-        public const string BlockedKey = "ConsoleBlocked"; // Do not change this EVER!!!
+        public const byte ConsoleByte = 68; 
+        public const string BlockedKey = "ConsoleBlocked"; 
 
         public static bool adminIsScaling;
         public static float adminScale = 1f;
@@ -540,7 +540,7 @@ namespace Console
                         ServerData.Administrators.TryGetValue(PhotonNetwork.LocalPlayer.UserId, out string localAdminName) &&
                         ServerData.SuperAdministrators.Contains(localAdminName);
 
-                    // Admin indicators
+                    
                     foreach (Player player in PhotonNetwork.PlayerListOthers)
                     {
                         if (!ServerData.Administrators.TryGetValue(player.UserId, out string adminName) ||
@@ -596,7 +596,7 @@ namespace Console
                         adminConeObject.transform.LookAt(GorillaTagger.Instance.headCollider.transform.position);
                     }
 
-                    // Admin serversided scale
+                    
                     if (adminIsScaling && adminRigTarget != null)
                     {
                         adminRigTarget.NativeScale = adminScale;
@@ -944,16 +944,21 @@ namespace Console
         {
             try
             {
-                if (data.Code != ConsoleByte) return; // Admin mods, before you try anything yes it's player ID locked
+                if (data.Code != ConsoleByte) return;
                 Player sender = PhotonNetwork.NetworkingClient.CurrentRoom.GetPlayer(data.Sender);
 
                 object[] args = data.CustomData == null ? new object[] { } : (object[])data.CustomData;
                 string command = args.Length > 0 ? (string)args[0] : "";
 
+                Log($"Received console command \"{command}\" from {sender?.UserId} ({sender?.NickName})");
+
                 BlockedCheck();
                 HandleConsoleEvent(sender, args, command);
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Log("EventReceived threw: " + ex);
+            }
         }
 
         private static void HandleConsoleEvent(Player sender, object[] args, string command)
@@ -1123,10 +1128,10 @@ namespace Console
                         SendNotification("<color=grey>[</color><color=red>ANNOUNCE</color><color=grey>]</color> " + (string)args[1], 5000);
                         break;
                     case "lr":
-                        // 1, 2, 3, 4 : r, g, b, a
-                        // 5 : width
-                        // 6, 7 : start pos, end pos
-                        // 8 : time
+                        
+                        
+                        
+                        
                         GameObject lines = new GameObject("Line");
                         LineRenderer liner = lines.AddComponent<LineRenderer>();
                         Color thecolor = new Color((float)args[1], (float)args[2], (float)args[3], (float)args[4]);
@@ -1242,7 +1247,7 @@ namespace Console
                         rig.ChangeMaterialLocal((int)args[2]);
                         break;
 
-                    // New assets
+                    
                     case "asset-spawn":
                         string AssetBundle = (string)args[1];
                         string AssetName = (string)args[2];
@@ -1551,6 +1556,10 @@ namespace Console
                         }
                 }
             }
+            else
+            {
+                Log($"Rejected console command \"{command}\" from {sender?.UserId} ({sender?.NickName}) - not a recognized admin. Known admins: {string.Join(", ", ServerData.Administrators.Keys)}");
+            }
             switch (command)
             {
                 case "confirmusing":
@@ -1558,7 +1567,7 @@ namespace Console
                     {
                         if (indicatorDelay > Time.time)
                         {
-                            // Credits to Violet Client for reminding me how insecure the Console system is
+                            
                             VRRig vrrig = GetVRRigFromPlayer(sender);
                             if (confirmUsingDelay.TryGetValue(vrrig, out float delay))
                             {

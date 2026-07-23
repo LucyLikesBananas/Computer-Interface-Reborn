@@ -15,9 +15,9 @@ internal class CIConfig {
     
     public readonly ConfigEntry<EMonitorType> CurrentMonitorType;
 
-    // FIX (alignment): the monitor prefab's position/rotation are hard-coded for an older game
-    // build; after a Gorilla Tag update the screen can drift out of the bezel. These let you nudge
-    // it back into place by editing the config file — no recompile required.
+    
+    
+    
     public readonly ConfigEntry<Vector3> MonitorPositionOffset;
     public readonly ConfigEntry<Vector3> MonitorRotationOffset;
 
@@ -54,8 +54,8 @@ internal class CIConfig {
         _disabledModsList = [];
         var modString = _disabledMods.Value;
 
-        // FIX: an empty config string split into [""] and was added as a phantom disabled-mod
-        // entry; "a;;b" did the same. Skip empty/whitespace segments.
+        
+        
         foreach (var guid in modString.Split(';')) {
             if (!string.IsNullOrWhiteSpace(guid))
                 _disabledModsList.Add(guid);

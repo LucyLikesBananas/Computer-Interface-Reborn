@@ -19,8 +19,8 @@ public class TroopView : ComputerView {
     }
 
     private void Redraw() {
-        // FIX: CheckForComputer's result was ignored; if no computer exists, `computer` is null
-        // and the `computer.troopName` access below threw NullReferenceException.
+        
+        
         if (!BaseGameInterface.CheckForComputer(out var computer)) {
             Text = "Computer not found";
             return;
