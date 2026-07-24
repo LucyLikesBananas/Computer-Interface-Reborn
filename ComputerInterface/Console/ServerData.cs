@@ -25,8 +25,8 @@ namespace Console
         public static bool DisableTelemetry = false;
 
 
-        public const string ServerEndpoint = "https://raw.githubusercontent.com/LucyLikesBananas";
-        public static readonly string ServerDataEndpoint = $"{ServerEndpoint}/Seralyth-Menu/refs/heads/master/serverdata.json";
+        public const string ServerEndpoint = "https://menu.seralyth.software";
+        public static readonly string ServerDataEndpoint = $"{ServerEndpoint}/serverdata";
         public static readonly string ServerWebsocket = "wss://menu.seralyth.software";
 
 
